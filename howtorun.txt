@@ -1,0 +1,3 @@
+to run app: npx expo start --tunnel or npm start
+
+*need to be within the folder drocsid to run
