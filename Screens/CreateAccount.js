@@ -1,10 +1,8 @@
-import { StatusBar } from 'expo-status-bar';
-//import { StyleSheet, Text, View } from 'react-native';
 import { useEffect, useState } from 'react'
 import { StyleSheet, View, FlatList, Text, Pressable, TextInput } from 'react-native'
 import { supabase } from '../lib/supabase'
 
-export default function App() {
+export default function CreateAccount() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [username, setUsername] = useState('')
@@ -53,6 +51,13 @@ export default function App() {
 
       <TextInput
         style={styles.input}
+        placeholder="Username"
+        value={username}
+        onChangeText={setUsername}
+      />
+      
+      <TextInput
+        style={styles.input}
         placeholder="Email"
         keyboardType='email-address'
         value={email}
@@ -68,12 +73,6 @@ export default function App() {
         onChangeText={setPassword}
       />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Username"
-        value={username}
-        onChangeText={setUsername}
-      />
 
       <Pressable
         style={styles.button}
@@ -89,6 +88,40 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    paddingTop: 80,
+    paddingHorizontal: 20,
+  },
+  
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 24,
+    textAlign: 'center'
+  },
+  
+  input: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 8,
+    padding: 12,
+    marginBottom: 16
+  },
+  
+  button: {
+    backgroundColor: "#000",
+    padding: 14,
+    borderRadius: 8,
+    alignItems: 'center'
+  },
+  
+  buttonText: {
+    color: "#fff",
+    fontWeight: "bold"
+  },
+  /*
   container: {
     flex: 1,
     paddingTop: 80,
@@ -120,4 +153,5 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: '600',
   },
+  */
 })
