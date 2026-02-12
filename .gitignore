@@ -3,6 +3,10 @@
 # dependencies
 node_modules/
 
+#files
+package-lock.json
+package.json
+
 # Expo
 .expo/
 dist/
