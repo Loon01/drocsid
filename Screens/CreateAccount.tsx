@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { StyleSheet, View, FlatList, Text, Pressable, TextInput } from 'react-native'
 import { supabase } from '../lib/supabase'
 
-export default function CreateAccount() {
+export default function CreateAccount({ gotoLogin }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [username, setUsername] = useState('')
@@ -20,6 +20,7 @@ export default function CreateAccount() {
         email,    //checks to see email is not malformed
         password, //checks to see if the password meets rules length
       })
+      await supabase.auth.signOut()
 
     if (authError) {
       console.error('AUTH ERROR:', authError.message)
@@ -88,6 +89,16 @@ export default function CreateAccount() {
           {loading ? 'Creating...' : 'Sign Up'}
         </Text>
       </Pressable>
+      
+      <Pressable
+        style={styles.button}
+        onPress={gotoLogin}
+        disabled={loading}
+      >
+        <Text style={styles.buttonText}>
+          Go back to Login
+        </Text>
+      </Pressable>
 
       {message ? (
         <Text style={styles.message}>{message}</Text>
@@ -135,8 +146,6 @@ const styles = StyleSheet.create({
   message: {
   marginTop: 20,
   textAlign: 'center',
-  //color: 'green',
   fontWeight: 'bold',
-  //color: message.includes('ERROR') ? 'red' : 'green'
   },
 })
