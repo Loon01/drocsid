@@ -8,9 +8,12 @@ export default function CreateAccount() {
   const [username, setUsername] = useState('')
 
   const [loading, setLoading] = useState(false)
+  const [message, setMessage] = useState('')
+
 
   async function handleSignup() {
     setLoading(true)
+    setMessage('')
 
     const { data: authData, error: authError } =
       await supabase.auth.signUp({ 
@@ -20,6 +23,7 @@ export default function CreateAccount() {
 
     if (authError) {
       console.error('AUTH ERROR:', authError.message)
+      setMessage('ERROR IN CREATING ACCOUNT :(')
       setLoading(false)
       return
     }
@@ -37,13 +41,14 @@ export default function CreateAccount() {
 
     if (dbError) {
       console.error('DB ERROR:', dbError.message)
+      //setMessage('Could not create Account :(')
     } else {
       console.log('User created!')
+      setMessage('Account Created! :)')
     }
 
     setLoading(false)
   }
-  
 
   return (
     <View style={styles.container}>
@@ -83,6 +88,11 @@ export default function CreateAccount() {
           {loading ? 'Creating...' : 'Sign Up'}
         </Text>
       </Pressable>
+
+      {message ? (
+        <Text style={styles.message}>{message}</Text>
+      ) : null}
+
     </View>
   )
 }
@@ -121,37 +131,12 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontWeight: "bold"
   },
-  /*
-  container: {
-    flex: 1,
-    paddingTop: 80,
-    paddingHorizontal: 20,
-  },
 
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
+  message: {
+  marginTop: 20,
+  textAlign: 'center',
+  //color: 'green',
+  fontWeight: 'bold',
+  //color: message.includes('ERROR') ? 'red' : 'green'
   },
-
-  input: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    padding: 14,
-    borderRadius: 8,
-    marginBottom: 12,
-  },
-
-  button: {
-    backgroundColor: '#1e90ff',
-    padding: 14,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-
-  buttonText: {
-    color: 'white',
-    fontWeight: '600',
-  },
-  */
 })
