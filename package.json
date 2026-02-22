@@ -1,7 +1,7 @@
 {
   "name": "project_frontend",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "./Navigation/index.tsx",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
@@ -16,8 +16,10 @@
   },
   "private": true,
   "devDependencies": {
+    "@types/react": "~19.1.10",
     "autoprefixer": "^10.4.24",
     "postcss": "^8.5.6",
-    "tailwindcss": "3"
+    "tailwindcss": "3",
+    "typescript": "~5.9.2"
   }
 }

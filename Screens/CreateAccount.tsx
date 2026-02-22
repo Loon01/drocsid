@@ -1,10 +1,18 @@
 import React, {useState} from 'react';
 import {StyleSheet, View, Text, TextInput, TouchableOpacity} from 'react-native';
+
 export default function CreateAccount () {
     // variables User Input
     const [username, setUsername] = useState("");    
     const [email, setEmail] = useState("");    
-    const [password, setPassword] = useState("");     
+    const [password, setPassword] = useState("");
+    
+    const handleSignUp = (): void => {
+      console.log("Username: ", username);
+      console.log("Email: ", email);
+      console.log("Password: ", password);
+    };
+
     return(
         <View style={styles.container}>
             <Text style={styles.title}>Create Account</Text>
@@ -30,11 +38,7 @@ export default function CreateAccount () {
                 onChangeText = {setPassword}
             />
             {/*SUBMIT BUTTON - just outputs to console rn*/}
-            <TouchableOpacity style={styles.button} onPress={() => { 
-                console.log("Username: ", username); 
-                console.log("Email: ", email);
-                console.log("Password: ", password);
-            }}>
+            <TouchableOpacity style={styles.button} onPress={handleSignUp}> 
                 <Text style={styles.buttonText}>Sign Up</Text>
             </TouchableOpacity>
         </View>
