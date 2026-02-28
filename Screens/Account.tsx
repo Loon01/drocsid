@@ -6,7 +6,6 @@ import { supabase } from '../lib/supabase'
 export default function Account({ session }: { session: Session }) {
   const [loading, setLoading] = useState(true)
   const [username, setUsername] = useState('')
-  const [server, setServer] = useState<any[]>([])
 
   useEffect(() => {
     if (session) {
@@ -35,18 +34,6 @@ export default function Account({ session }: { session: Session }) {
       
       setUsername(userData.username)
 
-      const { data: serverData, error: serverError } = await supabase //still not outputting Server that user owns, maybe because of reference problem with foreign key?
-        .from('Server')
-        .select('name')
-        .eq('owner_id', userData.u_id)
-
-      console.log("Server DATA:", serverData)
-      console.log("Server ERROR:", serverError)
-      
-      if (serverError && serverError.code !== 'PGRST116') throw serverError
-
-      if (serverData) setServer(serverData)
-
     } catch (error) {
       if (error instanceof Error) Alert.alert(error.message)
     } finally {
@@ -66,8 +53,6 @@ export default function Account({ session }: { session: Session }) {
       <Text style={styles.value}>{username}</Text>
 
       <Text style={styles.label}>Server</Text>
-      <Text style={styles.value}>{server || "No servers created"}</Text>
-
       
       <Pressable 
       style={styles.button}
