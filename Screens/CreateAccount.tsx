@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { StyleSheet, View, FlatList, Text, Pressable, TextInput } from 'react-native'
 import { supabase } from '../lib/supabase'
 
-export default function CreateAccount({ gotoLogin }) {
+export default function CreateAccount({ onLoginPress }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [username, setUsername] = useState('')
@@ -92,7 +92,7 @@ export default function CreateAccount({ gotoLogin }) {
       
       <Pressable
         style={styles.button}
-        onPress={gotoLogin}
+        onPress={onLoginPress}
         disabled={loading}
       >
         <Text style={styles.buttonText}>

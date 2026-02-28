@@ -6,9 +6,12 @@ import { supabase } from '../lib/supabase'
 export default function Account({ session }: { session: Session }) {
   const [loading, setLoading] = useState(true)
   const [username, setUsername] = useState('')
+  const [server, setServer] = useState<any[]>([])
 
   useEffect(() => {
-    if (session) getProfile()
+    if (session) {
+      getProfile()
+    }
   }, [session])
 
   async function getProfile() {
@@ -17,16 +20,32 @@ export default function Account({ session }: { session: Session }) {
 
       if (!session?.user) throw new Error('No user on the session!')
 
-      const { data, error } = await supabase
+      const { data: userData, error: userError } = await supabase
         .from('User')
-        .select(`username`)
-        .eq('auth_id', session?.user.id) //compares uuid
+        .select(`u_id, username`)   
+        .eq('auth_id', session?.user.id)        //compares uuid
         .single()
 
-      console.log("DATA:", data)
-      console.log("ERROR:", error)
-      if (error) throw error
-      if (data) setUsername(data.username)
+      console.log("User DATA:", userData)
+      console.log("User ERROR:", userError)
+      //console.log("SESSION USER ID:", session.user.id)
+
+      if (userError) throw userError
+      if (!userData) throw new Error('User not found')
+      
+      setUsername(userData.username)
+
+      const { data: serverData, error: serverError } = await supabase //still not outputting Server that user owns, maybe because of reference problem with foreign key?
+        .from('Server')
+        .select('name')
+        .eq('owner_id', userData.u_id)
+
+      console.log("Server DATA:", serverData)
+      console.log("Server ERROR:", serverError)
+      
+      if (serverError && serverError.code !== 'PGRST116') throw serverError
+
+      if (serverData) setServer(serverData)
 
     } catch (error) {
       if (error instanceof Error) Alert.alert(error.message)
@@ -45,6 +64,10 @@ export default function Account({ session }: { session: Session }) {
       
       <Text style={styles.label}>Username</Text>
       <Text style={styles.value}>{username}</Text>
+
+      <Text style={styles.label}>Server</Text>
+      <Text style={styles.value}>{server || "No servers created"}</Text>
+
       
       <Pressable 
       style={styles.button}

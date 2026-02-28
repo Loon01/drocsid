@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {Alert, StyleSheet, View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform, AppState} from 'react-native';
 import { supabase } from '../lib/supabase'
-import CreateAccount from './CreateAccount'; //was used for testing but probably not the right way of doing it
 
 AppState.addEventListener('change', (state) => {
   if (state == 'active') {
@@ -11,7 +10,7 @@ AppState.addEventListener('change', (state) => {
   }
 })
 
-export default function LogIn({ gotoSignup }) {
+export default function LogIn({ onSignupPress }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false)
@@ -69,7 +68,7 @@ export default function LogIn({ gotoSignup }) {
                 
                 <TouchableOpacity 
                     style={styles.button} 
-                    onPress={gotoSignup} //need to have it navigate to the create acctount screen
+                    onPress={onSignupPress} //navigate to the create account screen
                     disabled={loading}
                     >
                     <Text style={styles.buttonText}>
