@@ -1,7 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import CreateAccount from "./Screens/CreateAccount"; // ignore casing problem if it shows up
-import LogIn from "./Screens/LogIn"; // ignore casing problem if it shows up
+import LogIn from "./Screens/LogIn"; 
+import Home from "./Screens/Home"; 
 import { SocketProvider } from "./socket/SocketContext"
 import { socket } from "./socket/socket";
 
@@ -20,7 +21,7 @@ export default function App() {
   return (
     //<CreateAccount/>
     <SocketProvider>
-      <LogIn/>
+      <Home/>
     </SocketProvider>
 
   );
