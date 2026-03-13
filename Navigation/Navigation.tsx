@@ -13,7 +13,7 @@ const Stack = createNativeStackNavigator();
 export default function Navigation() {
     return(
         <NavigationContainer>
-            <Stack.Navigator initialRouteName="Communities">
+            <Stack.Navigator id="" initialRouteName="Communities">
                 <Stack.Screen name="Communities" component={Home} />
                 <Stack.Screen name="DirectMessage" component={DirectMessage} />
                 <Stack.Screen name="Profile" component={Profile} />
