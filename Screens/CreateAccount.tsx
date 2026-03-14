@@ -13,6 +13,10 @@ export default function CreateAccount ({navigation}) {
       console.log("Password: ", password);
     };
 
+     const handleNavigation = () => {
+      navigation.replace("LogIn");
+    } 
+
     return(
         <View style={styles.container}>
             <Text style={styles.title}>Create Account</Text>
@@ -44,7 +48,7 @@ export default function CreateAccount ({navigation}) {
             {/*GO TO LogIn BUTTON*/}
             <Text>Have an account? </Text>
             <TouchableOpacity> 
-                <Text style={styles.buttonLink} onPress={() => navigation.navigate("LogIn")}>LogIn</Text>
+                <Text style={styles.buttonLink} onPress={handleNavigation}>LogIn</Text>
             </TouchableOpacity>
             
         </View>

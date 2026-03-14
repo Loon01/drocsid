@@ -4,6 +4,11 @@ import {StyleSheet, View, Text, TextInput, TouchableOpacity, KeyboardAvoidingVie
 export default function LogIn ({navigation}) {
     const [identifier, setIdentifier] = useState("");
     const [password, setPassword] = useState("");
+    
+    const handleNavigation = () => {
+      navigation.replace("CreateAccount")
+    }
+    
     return(
         <KeyboardAvoidingView style={styles.container}>
             <View style={styles.container}>
@@ -31,7 +36,7 @@ export default function LogIn ({navigation}) {
 
                 <Text>Don't have an account?</Text>
                 <TouchableOpacity>
-                  <Text style={styles.buttonLink} onPress={() => navigation.navigate("CreateAccount")}>Create Account</Text>
+                  <Text style={styles.buttonLink} onPress={handleNavigation}>Create Account</Text>
                 </TouchableOpacity>
 
             </View>
