@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {StyleSheet, View, Text, TextInput, TouchableOpacity} from 'react-native';
 
-export default function CreateAccount () {
+export default function CreateAccount ({navigation}) {
     // variables User Input
     const [username, setUsername] = useState("");    
     const [email, setEmail] = useState("");    
@@ -41,6 +41,12 @@ export default function CreateAccount () {
             <TouchableOpacity style={styles.button} onPress={handleSignUp}> 
                 <Text style={styles.buttonText}>Sign Up</Text>
             </TouchableOpacity>
+            {/*GO TO LogIn BUTTON*/}
+            <Text>Have an account? </Text>
+            <TouchableOpacity> 
+                <Text style={styles.buttonLink} onPress={() => navigation.navigate("LogIn")}>LogIn</Text>
+            </TouchableOpacity>
+            
         </View>
     );
 }
@@ -79,7 +85,10 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "#fff",
     fontWeight: "bold"
-  } 
+  }, 
 
+  buttonLink: {
+    color: "#0000FF" 
+  }
   
 });

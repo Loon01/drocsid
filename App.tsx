@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import Navigation from "./Navigation/Navigation" 
+import RootNavigator from "./Navigation/RootNavigator" 
+import AppNavigator from "./Navigation/AppNavigator" 
 import { SocketProvider } from "./socket/SocketContext"
 import { socket } from "./socket/socket";
 
@@ -18,11 +19,9 @@ socket.on("connect_error", (err) => {
 
 export default function App() {
   return (
-
-<SocketProvider>
-      <Navigation/>
+    <SocketProvider>
+      <RootNavigator/>
     </SocketProvider>
-
   );
 }
 

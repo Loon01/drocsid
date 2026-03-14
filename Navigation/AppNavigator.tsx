@@ -1,16 +1,13 @@
-import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 
-import CreateAccount from "../Screens/CreateAccount";
-import LogIn from "../Screens/LogIn";
 import Home from "../Screens/Home"
 import DirectMessage from "../Screens/DirectMessage";
 import Profile from "../Screens/Profile";
 
 const Stack = createNativeStackNavigator();
 
-export default function Navigation() {
+export default function AppNavigator() {
     return(
         <NavigationContainer>
             <Stack.Navigator id="" initialRouteName="Communities">
