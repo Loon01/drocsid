@@ -7,14 +7,12 @@ import Profile from "../Screens/Profile";
 
 const Stack = createNativeStackNavigator();
 
-export default function AppNavigator() {
+export default function AppStack() {
     return(
-        <NavigationContainer>
             <Stack.Navigator id="" initialRouteName="Communities">
                 <Stack.Screen name="Communities" component={Home} />
                 <Stack.Screen name="DirectMessage" component={DirectMessage} />
                 <Stack.Screen name="Profile" component={Profile} />
             </Stack.Navigator>
-        </NavigationContainer>
     );
 }

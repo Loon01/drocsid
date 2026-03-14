@@ -1,17 +1,17 @@
-import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
+import { NavigationContainer } from "@react-navigation/native";
 
-import CreateAccount from "../Screens/CreateAccount";
-import LogIn from "../Screens/LogIn";
+import AuthStack from "./AuthStack";
+import AppStack from "./AppStack";
 
 const Stack = createNativeStackNavigator();
 
 export default function RootNavigator() {
     return(
         <NavigationContainer>
-            <Stack.Navigator screenOptions={{headerShown: false}} id="" initialRouteName="LogIn">
-                <Stack.Screen name="LogIn" component={LogIn} />
-                <Stack.Screen name="CreateAccount" component={CreateAccount} />
+            <Stack.Navigator screenOptions={{headerShown: false}} id="" initialRouteName="AuthStack">
+                <Stack.Screen name="AuthStack" component={AuthStack} />
+                <Stack.Screen name="RootStack" component= {AppStack} />
             </Stack.Navigator>
         </NavigationContainer>
     );
