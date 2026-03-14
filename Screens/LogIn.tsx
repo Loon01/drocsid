@@ -5,6 +5,10 @@ export default function LogIn ({navigation}) {
     const [identifier, setIdentifier] = useState("");
     const [password, setPassword] = useState("");
     
+    const handleLogIn = () => {
+      
+    }
+
     const handleNavigation = () => {
       navigation.replace("CreateAccount")
     }
@@ -27,10 +31,7 @@ export default function LogIn ({navigation}) {
                 />
                 
                 {/*SUBMIT BUTTON - just outputs to console rn*/}
-                <TouchableOpacity style={styles.button} onPress={() => { 
-                    console.log("User: ", identifier);    
-                    console.log("Password: ", password);    
-                }}>
+                <TouchableOpacity style={styles.button} onPress={handleLogIn}>
                     <Text style={styles.buttonText}>Sign Up</Text>
                 </TouchableOpacity>
 

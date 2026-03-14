@@ -7,10 +7,26 @@ export default function CreateAccount ({navigation}) {
     const [email, setEmail] = useState("");    
     const [password, setPassword] = useState("");
     
+    // message for user validation
+    // const [loading, setLoading] = useState(false)
+    // const [nessage, setMessage] = useState('')
+
     const handleSignUp = (): void => {
-      console.log("Username: ", username);
-      console.log("Email: ", email);
-      console.log("Password: ", password);
+      console.log("SignUp btn pressed")
+//      setLoading(true)
+//      setMessage('')
+//
+//      const {data: authData, error: authError } =
+//        await supabase.auth.SignUp({
+//          email,
+//          password,
+//        })
+//        await supabase.auth.signOut()
+//
+//        if (authError) {
+//          console.error('AUTH ERROR: ', authError.message)
+//          setMessage('ERROR: account creation failed')
+//        }
     };
 
      const handleNavigation = () => {
