@@ -1,8 +1,5 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import CreateAccount from "./Screens/CreateAccount"; // ignore casing problem if it shows up
-import LogIn from "./Screens/LogIn"; 
-import Home from "./Screens/Home"; 
+import RootNavigator from "./Navigation/RootNavigator" 
+ 
 import { SocketProvider } from "./socket/SocketContext"
 import { socket } from "./socket/socket";
 
@@ -17,22 +14,12 @@ socket.on("disconnect", (reason) => {
 socket.on("connect_error", (err) => {
   console.log("CONNECT ERROR", err.message);
 });
+
 export default function App() {
   return (
-    //<CreateAccount/>
     <SocketProvider>
-      <Home/>
+      <RootNavigator/>
     </SocketProvider>
-
   );
 }
 
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

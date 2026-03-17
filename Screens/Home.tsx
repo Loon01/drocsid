@@ -1,23 +1,20 @@
 import { StyleSheet, View, Text, TouchableOpacity, Button } from "react-native"
 import { SafeAreaProvider } from "react-native-safe-area-context"
 
-export default function Home() {    
+export default function Home({navigation}) {    
     return (
       
         <SafeAreaProvider style={styles.container}>
-            <Text style={styles.serverText}>Communites</Text>
 
             <View style={styles.navBar}>
                 <TouchableOpacity style={styles.navButton}>
-                    <Text style={styles.navText}>DMs</Text>
+                    <Text style={styles.navText} 
+                    onPress={() => navigation.navigate("DirectMessage")}>DMs</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.navButton}>
-                    <Text style={styles.navText}>Home</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.navButton}>
-                    <Text style={styles.navText}>Profile</Text>
+                    <Text style={styles.navText}
+                    onPress={() => navigation.navigate("Profile")}>Profile</Text>
                 </TouchableOpacity>
             </View>
 

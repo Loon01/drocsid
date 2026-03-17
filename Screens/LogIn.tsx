@@ -1,9 +1,14 @@
 import React, {useState} from 'react';
-import {StyleSheet, View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform} from 'react-native';
+import {StyleSheet, View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView} from 'react-native';
 
-export default function LogIn () {
+export default function LogIn ({navigation}) {
     const [identifier, setIdentifier] = useState("");
     const [password, setPassword] = useState("");
+    
+    const handleNavigation = () => {
+      navigation.replace("CreateAccount")
+    }
+    
     return(
         <KeyboardAvoidingView style={styles.container}>
             <View style={styles.container}>
@@ -27,6 +32,11 @@ export default function LogIn () {
                     console.log("Password: ", password);    
                 }}>
                     <Text style={styles.buttonText}>Sign Up</Text>
+                </TouchableOpacity>
+
+                <Text>Don't have an account?</Text>
+                <TouchableOpacity>
+                  <Text style={styles.buttonLink} onPress={handleNavigation}>Create Account</Text>
                 </TouchableOpacity>
 
             </View>
@@ -68,7 +78,10 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "#fff",
     fontWeight: "bold"
-  } 
+  },
 
+  buttonLink: {
+    color: "#0000FF" 
+  }
   
 });
