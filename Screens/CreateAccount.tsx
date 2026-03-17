@@ -1,16 +1,55 @@
 import React, {useState} from 'react';
 import {StyleSheet, View, Text, TextInput, TouchableOpacity} from 'react-native';
-
+import { supabase } from '../lib/supabase'
 export default function CreateAccount ({navigation}) {
     // variables User Input
     const [username, setUsername] = useState("");    
     const [email, setEmail] = useState("");    
     const [password, setPassword] = useState("");
     
-    const handleSignUp = (): void => {
-      console.log("Username: ", username);
-      console.log("Email: ", email);
-      console.log("Password: ", password);
+    // message for user validation
+    const [loading, setLoading] = useState(false)
+    const [nessage, setMessage] = useState('')
+
+    async function handleSignUp() {
+      console.log("SignUp btn pressed")
+      setLoading(true)
+      setMessage('')
+
+      const {data: authData, error: authError } =
+        await supabase.auth.signUp({
+          email,
+          password,
+        })
+        await supabase.auth.signOut()
+
+        if (authError) {
+          console.error('AUTH ERROR: ', authError.message)
+          setMessage('ERROR: account creation failed')
+          setLoading(false)
+          return
+        }
+
+        const userId = authData.user.id
+
+        const { error: dbError } = await supabase
+          .from('User')
+          .insert({
+            username,
+            email,
+            password,
+            auth_id: userId,
+          })
+
+          if (dbError) {
+            console.error('DB ERROR: ', dbError.message)
+          } else {
+            console.log('User Created!')
+            setMessage('Account Created! :)')
+          }
+
+          setLoading(false)
+
     };
 
      const handleNavigation = () => {
