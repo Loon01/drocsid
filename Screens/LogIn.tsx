@@ -12,8 +12,8 @@ AppState.addEventListener('change', (state) => {
 
 
 export default function LogIn ({navigation}) {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false)
     const [message, setMessage] = useState('')
 
@@ -31,8 +31,13 @@ export default function LogIn ({navigation}) {
         Alert.alert(error.message)
         setMessage("ERROR IN LOGGING IN")
       }
-      setLoading(false)
+
+      if(data?.session) {
+        console.log("LOGIN SUCCESSFUL")
+        {/*navigation.replace("AppStack")*/}
+      }
       
+      setLoading(false)
     }
 
     const handleNavigation = () => {
@@ -60,15 +65,20 @@ export default function LogIn ({navigation}) {
                 />
                 
                 {/*SUBMIT BUTTON - just outputs to console rn*/}
-                <TouchableOpacity style={styles.button} onPress={handleLogIn}>
-                    <Text style={styles.buttonText}>Sign Up</Text>
+                <TouchableOpacity style={styles.button} onPress={handleLogIn} disabled={loading}>
+                    <Text style={styles.buttonText}>
+                      {loading ? 'Logging In...' : 'Log In'}
+                    </Text>
                 </TouchableOpacity>
 
                 <Text>Don't have an account?</Text>
                 <TouchableOpacity>
                   <Text style={styles.buttonLink} onPress={handleNavigation}>Create Account</Text>
                 </TouchableOpacity>
+                {message ? (
+                  <Text style={styles.message}>{message}</Text>
 
+                ) : null}
             </View>
         </KeyboardAvoidingView>
     );
@@ -112,6 +122,13 @@ const styles = StyleSheet.create({
 
   buttonLink: {
     color: "#0000FF" 
-  }
+  },
+
+   message: {
+    marginTop: 20,
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
+
   
 });
