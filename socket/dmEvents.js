@@ -6,4 +6,4 @@ export function sendDirectMessage(con_id, sender_id, context) {
         sender_id,
         context,
     });
-}
+};

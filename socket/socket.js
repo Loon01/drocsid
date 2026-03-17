@@ -4,4 +4,5 @@ import { io } from "socket.io-client";
 export const socket = io("https://drocsid.org", {
   path: "/socket.io",
   transports: ["websocket", "polling"],
+  autoConnect: false,
 });
