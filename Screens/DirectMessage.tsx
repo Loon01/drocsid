@@ -50,8 +50,7 @@ export default function DirectMessage({ route }) {
         <SafeAreaProvider style={styles.container}>
             <KeyboardAvoidingView style={{flex: 1}}
                 behavior={Platform.OS === "ios" ? "padding" : "height"}
-                keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 90}> {/* not sure if it'll look good for ios */}
-                    <View style={{flex: 1}}>
+                keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 90}> 
                 {/* CONVERSATION FIELD */}
                 <FlatList
                     data={messages}
@@ -76,7 +75,6 @@ export default function DirectMessage({ route }) {
                     onSubmitEditing={sendMessage}
                 />
                 {/*<Button title="Send" onPress={sendMessage} />*/}
-                </View>
             </KeyboardAvoidingView>
     </SafeAreaProvider>
   );
