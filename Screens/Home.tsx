@@ -67,7 +67,7 @@ export default function Home({ navigation }) {
                     onPress={() => navigation.navigate("Profile")}>Profile</Text>
                 </TouchableOpacity>
 
-                <Pressable
+                {/*<Pressable
                 style={styles.button}
                 onPress={() => supabase.auth.signOut()}
                 disabled={loading} 
@@ -75,7 +75,7 @@ export default function Home({ navigation }) {
                   <Text style={styles.buttonText}>
                     Sign out
                   </Text>
-                </Pressable>
+                </Pressable>*/}
             </View>
 
         </SafeAreaProvider>
