@@ -1,5 +1,5 @@
 import React, {useEffect, useState } from "react";
-import { View, Text, TextInput, Button, FlatList, StyleSheet } from "react-native";
+import { View, Text, TextInput, Button, FlatList, StyleSheet, KeyboardAvoidingView, Platform } from "react-native";
 import { socket } from "../socket/socket";
 import { sendDirectMessage } from "../socket/dmEvents";
 import { SafeAreaProvider } from "react-native-safe-area-context"
@@ -41,40 +41,47 @@ export default function DirectMessage({ route }) {
     const sendMessage = () => {
         const trimmed = content.trim();
         if (!trimmed) return;
-
-        sendDirectMessage(con_id, sender_id, trimmed);
-
+        //sendDirectMessage(con_id, sender_id, trimmed);
+        console.log(trimmed)
         setContent("");
     }
 
     return(
         <SafeAreaProvider style={styles.container}>
-      <Text style={styles.title}>Direct Messages</Text>
+            <KeyboardAvoidingView style={{flex: 1}}
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+                keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 90}> {/* not sure if it'll look good for ios */}
+                    <View style={{flex: 1}}>
+                {/* CONVERSATION FIELD */}
+                <FlatList
+                    data={messages}
+                    keyExtractor={(item, index) => item.id?.toString() ?? index.toString()}
+                    renderItem={({ item }) => (
+                        <View style={styles.messageRow}>
+                            <Text>
+                                <Text style={styles.sender}>{item.sender_id}: </Text>
+                                {item.content}
+                            </Text>
+                        </View>
+                    )}
+                />
 
-      <FlatList
-        data={messages}
-        keyExtractor={(item, index) => item.id?.toString() ?? index.toString()}
-        renderItem={({ item }) => (
-          <View style={styles.messageRow}>
-            <Text>
-              <Text style={styles.sender}>{item.sender_id}: </Text>
-              {item.content}
-            </Text>
-          </View>
-        )}
-      />
-
-      <TextInput
-        value={content}
-        onChangeText={setContent}
-        placeholder="Type a message"
-        style={styles.input}
-      />
-
-      <Button title="Send" onPress={sendMessage} />
+                {/* INPUT FIELD */}
+                <TextInput
+                    value={content}
+                    onChangeText={setContent}
+                    placeholder="Type a message"
+                    style={styles.input}
+                    returnKeyType="send"
+                    onSubmitEditing={sendMessage}
+                />
+                {/*<Button title="Send" onPress={sendMessage} />*/}
+                </View>
+            </KeyboardAvoidingView>
     </SafeAreaProvider>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
