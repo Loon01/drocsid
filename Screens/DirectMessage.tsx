@@ -41,8 +41,8 @@ export default function DirectMessage({ route }) {
     const sendMessage = () => {
         const trimmed = content.trim();
         if (!trimmed) return;
-        //sendDirectMessage(con_id, sender_id, trimmed);
-        console.log(trimmed)
+        sendDirectMessage(con_id, sender_id, trimmed);
+        //console.log(trimmed)
         setContent("");
     }
 
