@@ -1,12 +1,36 @@
-import React, { useEffect } from "react";
-import RootNavigator from "./Navigation/RootNavigator" 
+import React, { useState, useEffect } from "react";
+import { View } from 'react-native'
+import { Session } from '@supabase/supabase-js'
+import { supabase } from './lib/supabase'
 
-import DirectMessage from "./Screens/DirectMessage";
+import RootNavigator from "./Navigation/RootNavigator" 
+//import DirectMessage from "./Screens/DirectMessage";
  
 import { SocketProvider } from "./socket/SocketContext"
 import { socket } from "./socket/socket";
 
 export default function App() {
+  const [session, setSession] = useState<Session | null>(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session)
+      setLoading(false)
+    })
+    //if (loading) return null;
+
+    const { data: listener } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setSession(session)
+      }
+    )
+
+    return () => {
+      listener.subscription.unsubscribe()
+    }
+  }, [])
+
   useEffect(() => {
     const onConnect = () => {
       console.log("CONNECTED", socket.id);
@@ -33,7 +57,9 @@ export default function App() {
 
   return (
     <SocketProvider>
-      <DirectMessage />
+      <View style={{ flex: 1 }}>
+        <RootNavigator session={session} />
+      </View>
     </SocketProvider>
   );
 }

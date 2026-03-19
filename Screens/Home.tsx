@@ -1,40 +1,43 @@
-import { StyleSheet, View, Text, TouchableOpacity, Alert } from "react-native"
+import { StyleSheet, View, Text, TouchableOpacity, Alert, Pressable } from "react-native"
 import { SafeAreaProvider } from "react-native-safe-area-context"
-import { Session } from '@supabase/supabase-js'
 import { supabase } from '../lib/supabase'
 import { useEffect, useState } from "react"
 
-export default function Home({navigation}, {session}: {session: Session}) {
+export default function Home({ navigation }) {
   const [loading, setLoading] = useState(true)
   const [username, setUsername] = useState('')
+  //const [email, setEmail] = useState('')
   
   useEffect(() => {
-    if (session)
-      getProfile() 
-  }, [session])
+    getProfile() 
+  }, [])
 
   async function getProfile() {
     try {
       setLoading(true)
 
-      if (!session?.user) 
-        throw new Error('No user on the session!')
+      const { data: { user }, error: userError } = await supabase.auth.getUser()
+
+      if (userError) throw userError
+      if (!user) throw new Error('No logged in user')
 
       const {data, error} = await supabase
         .from('User')
         .select(`username`)
-        .eq('auth_id', session?.user.id) // compares uuid
+        .eq('auth_id', user.id) // compares uuid
         .single()
 
       console.log("DATA:", data)
       console.log("ERROR:", error)
-      if (error)
-        throw error
-      if (data)
-        setUsername(data.username)
+
+      if (error) throw error
+      if (!data) throw new Error('User not found')
+
+      setUsername(data.username)
+      //setEmail(user.email ?? '')
+
     } catch (error) {
-      if (error instanceof Error)
-        Alert.alert(error.message)
+      if (error instanceof Error) Alert.alert(error.message)
     } finally {
       setLoading(false)
     }
@@ -43,8 +46,12 @@ export default function Home({navigation}, {session}: {session: Session}) {
     return (
       
         <SafeAreaProvider style={styles.container}>
+
+            {/*
             <Text style={styles.label}>Email</Text>
-            <Text style={styles.value}>{session?.user?.email}</Text>
+            <Text style={styles.value}>{email}</Text>
+            */}
+
             <Text style={styles.label}>Username</Text>
             <Text style={styles.value}>{username}</Text>
             
@@ -59,6 +66,16 @@ export default function Home({navigation}, {session}: {session: Session}) {
                     <Text style={styles.navText}
                     onPress={() => navigation.navigate("Profile")}>Profile</Text>
                 </TouchableOpacity>
+
+                <Pressable
+                style={styles.button}
+                onPress={() => supabase.auth.signOut()}
+                disabled={loading} 
+                >
+                  <Text style={styles.buttonText}>
+                    Sign out
+                  </Text>
+                </Pressable>
             </View>
 
         </SafeAreaProvider>
@@ -102,5 +119,16 @@ const styles = StyleSheet.create({
   value: {
     fontSize: 18,
     marginTop: 5,
+  },
+  button: {
+    backgroundColor: "#000",
+    padding: 14,
+    borderRadius: 8,
+    alignItems: 'center'
+  },
+  
+  buttonText: {
+    color: "#fff",
+    fontWeight: "bold"
   },  
 });

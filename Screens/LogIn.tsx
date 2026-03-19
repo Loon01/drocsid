@@ -18,7 +18,7 @@ export default function LogIn ({navigation}) {
     const [message, setMessage] = useState('')
 
     async function handleLogIn() {
-       setLoading(true)
+      setLoading(true)
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
@@ -65,7 +65,7 @@ export default function LogIn ({navigation}) {
                 />
                 
                 {/*SUBMIT BUTTON - just outputs to console rn*/}
-                <TouchableOpacity style={styles.button} onPress={handleLogIn} disabled={loading}>
+                <TouchableOpacity style={styles.button} onPress={() => handleLogIn()} disabled={loading}>
                     <Text style={styles.buttonText}>
                       {loading ? 'Logging In...' : 'Log In'}
                     </Text>
