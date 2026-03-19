@@ -1,20 +1,45 @@
 import { StyleSheet, Text, Pressable } from "react-native"
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { supabase } from '../lib/supabase'
+import { getProfile } from '../lib/user_info'
+import { useEffect, useState } from "react"
 
 export default function Profile() {
+  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
+
+  useEffect(() => {
+    loadProfile()
+  }, [])
+
+  async function loadProfile() {
+    const profile = await getProfile()
+    setUsername(profile.username)
+    setEmail(profile.email)
+  }
     return(
         <SafeAreaProvider>
-        <Text>;-;</Text>
 
-           <Pressable
-                style={styles.button}
-                onPress={() => supabase.auth.signOut()}
-                >
-                  <Text style={styles.buttonText}>
-                    Sign out
-                  </Text>
-                </Pressable>
+        {/*<Text>Nothing for now.....;-;</Text>*/}
+
+        <Text style={styles.label}>Username</Text>
+        <Text style={styles.value}>{username}</Text>
+        
+        <Text style={styles.label}>Email</Text>
+        <Text style={styles.value}>{email}</Text>
+
+        {/*Some blank space so that the above text 
+        does not touch sign out button*/}
+        <Text style={styles.label}></Text>  
+
+        <Pressable
+        style={styles.button}
+        onPress={() => supabase.auth.signOut()}
+        >
+          <Text style={styles.buttonText}>
+            Sign out
+          </Text>
+        </Pressable>
     </SafeAreaProvider>
     );
 }
@@ -30,5 +55,14 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "#fff",
     fontWeight: "bold"
+  },
+  label: {
+    marginTop: 20,
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  value: {
+    fontSize: 18,
+    marginTop: 5,
   },  
 });

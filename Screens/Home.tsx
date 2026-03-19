@@ -6,7 +6,6 @@ import { useEffect, useState } from "react"
 export default function Home({ navigation }) {
   const [loading, setLoading] = useState(true)
   const [username, setUsername] = useState('')
-  //const [email, setEmail] = useState('')
   
   useEffect(() => {
     getProfile() 
@@ -24,11 +23,11 @@ export default function Home({ navigation }) {
       const {data, error} = await supabase
         .from('User')
         .select(`username`)
-        .eq('auth_id', user.id) // compares uuid
+        .eq('auth_id', user.id)     // compares uuid
         .single()
 
-      console.log("DATA:", data)
-      console.log("ERROR:", error)
+      console.log("DATA:", data)    //Check if the right data is being shown
+      console.log("ERROR:", error)  //Check if there are errors
 
       if (error) throw error
       if (!data) throw new Error('User not found')
@@ -46,15 +45,8 @@ export default function Home({ navigation }) {
     return (
       
         <SafeAreaProvider style={styles.container}>
-
-            {/*
-            <Text style={styles.label}>Email</Text>
-            <Text style={styles.value}>{email}</Text>
-            */}
-
             <Text style={styles.label}>Username</Text>
             <Text style={styles.value}>{username}</Text>
-            
                         
             <View style={styles.navBar}>
                 <TouchableOpacity style={styles.navButton}>
@@ -66,16 +58,6 @@ export default function Home({ navigation }) {
                     <Text style={styles.navText}
                     onPress={() => navigation.navigate("Profile")}>Profile</Text>
                 </TouchableOpacity>
-
-                {/*<Pressable
-                style={styles.button}
-                onPress={() => supabase.auth.signOut()}
-                disabled={loading} 
-                >
-                  <Text style={styles.buttonText}>
-                    Sign out
-                  </Text>
-                </Pressable>*/}
             </View>
 
         </SafeAreaProvider>
