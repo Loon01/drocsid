@@ -41,9 +41,8 @@ export default function DirectMessage({ route }) {
     const sendMessage = () => {
         const trimmed = content.trim();
         if (!trimmed) return;
-
-        sendDirectMessage(con_id, sender_id, trimmed);
-
+        //sendDirectMessage(con_id, sender_id, trimmed);
+        console.log(trimmed)
         setContent("");
     }
 
@@ -51,7 +50,7 @@ export default function DirectMessage({ route }) {
         <SafeAreaProvider style={styles.container}>
             <KeyboardAvoidingView style={{flex: 1}}
                 behavior={Platform.OS === "ios" ? "padding" : "height"}
-                keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 50}>
+                keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 90}> {/* not sure if it'll look good for ios */}
                     <View style={{flex: 1}}>
                 {/* CONVERSATION FIELD */}
                 <FlatList
@@ -73,13 +72,16 @@ export default function DirectMessage({ route }) {
                     onChangeText={setContent}
                     placeholder="Type a message"
                     style={styles.input}
+                    returnKeyType="send"
+                    onSubmitEditing={sendMessage}
                 />
-                <Button title="Send" onPress={sendMessage} />
+                {/*<Button title="Send" onPress={sendMessage} />*/}
                 </View>
             </KeyboardAvoidingView>
     </SafeAreaProvider>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
