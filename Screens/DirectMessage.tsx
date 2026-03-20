@@ -4,7 +4,7 @@ import { socket } from "../socket/socket";
 import { sendDirectMessage } from "../socket/dmEvents";
 import { SafeAreaProvider } from "react-native-safe-area-context"
 
-export default function DirectMessage({ route }) {
+export default function DirectMessage() {
     // This is the way to get a specific conversation but I need to use test so I will comment this out for now
     //const {con_id, sender_id } = route.params;
 
@@ -13,15 +13,27 @@ export default function DirectMessage({ route }) {
 
     const [content, setContent] = useState("");
     const [messages, setMessages] = useState([]);
-    
+
     useEffect(() => {
         if (!socket.connected) { socket.connect(); }
 
-        //socket.emit("conversation:join", con_id);
+        socket.emit("conversation:join", con_id);
+        socket.emit("conversation:history", con_id);
+
+        const handleHistory = (oldMessages) => {
+            setMessages(oldMessages);
+        };
 
         const handleNewDM = (message) => {
+            console.log("dm:new received:", message);
+
             if (message.con_id === con_id) {
-                setMessages((prev) => [...prev, message]);
+                setMessages((prev) => {
+                    if (prev.some((m) => m.dm_id === message.dm_id)) {
+                        return prev;
+                    }
+                    return [...prev, message];
+                });
             }
         };
 
@@ -29,10 +41,12 @@ export default function DirectMessage({ route }) {
             console.log("DM error:", errorMessage);
         };
 
+        socket.on("conversation:history", handleHistory);
         socket.on("dm:new", handleNewDM);
         socket.on("dm:error", handelDMError);
 
         return () => {
+            socket.off("conversation:history", handleHistory);
             socket.off("dm:new", handleNewDM);
             socket.off("dm:error", handelDMError);
         };
@@ -59,7 +73,7 @@ export default function DirectMessage({ route }) {
                         <View style={styles.messageRow}>
                             <Text>
                                 <Text style={styles.sender}>{item.sender_id}: </Text>
-                                {item.content}
+                                {item.context}
                             </Text>
                         </View>
                     )}

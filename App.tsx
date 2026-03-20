@@ -58,9 +58,13 @@ export default function App() {
   return (
     <SocketProvider>
       <View style={{ flex: 1 }}>
-        <RootNavigator session={session} />
-      </View>
+        <RootNavigator session={session} /> 
+      </View> 
     </SocketProvider>
   );
+
+  /*
+    <DirectMessage />
+  */
 }
 
