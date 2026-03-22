@@ -7,6 +7,7 @@ import { useEffect, useState } from "react"
 export default function Profile() {
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
+  const [uid, setUid] = useState('')
 
   useEffect(() => {
     loadProfile()
@@ -14,6 +15,7 @@ export default function Profile() {
 
   async function loadProfile() {
     const profile = await getProfile()
+    setUid(profile.uid)               //Soon need to remove (Users don't need to see their own ID)
     setUsername(profile.username)
     setEmail(profile.email)
   }
@@ -27,6 +29,9 @@ export default function Profile() {
         
         <Text style={styles.label}>Email</Text>
         <Text style={styles.value}>{email}</Text>
+
+        <Text style={styles.label}>uid</Text>      {/* To be removed later */}
+        <Text style={styles.value}>{uid}</Text>    {/* To be removed later */}
 
         {/*Some blank space so that the above text 
         does not touch sign out button*/}

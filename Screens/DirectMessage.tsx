@@ -3,16 +3,28 @@ import { View, Text, TextInput, Button, FlatList, StyleSheet, KeyboardAvoidingVi
 import { socket } from "../socket/socket";
 import { sendDirectMessage } from "../socket/dmEvents";
 import { SafeAreaProvider } from "react-native-safe-area-context"
+import { getProfile } from '../lib/user_info'
 
 export default function DirectMessage() {
     // This is the way to get a specific conversation but I need to use test so I will comment this out for now
     //const {con_id, sender_id } = route.params;
 
     const con_id = "75625d52-d696-4e2e-9045-1e304d94312d";
-    const sender_id = "7";
+    //const sender_id = "7";
 
     const [content, setContent] = useState("");
     const [messages, setMessages] = useState([]);
+    const [sender, setSender] = useState(null);
+
+    // Fetch the user once when screen loads and store it in state
+    useEffect(() => {
+        async function loadUser() {
+            const profile = await getProfile();
+            setSender(profile);
+        }
+        
+        loadUser();
+    }, []);
 
     useEffect(() => {
         if (!socket.connected) { socket.connect(); }
@@ -52,14 +64,20 @@ export default function DirectMessage() {
         };
     }, [con_id]);
 
-    const sendMessage = () => {
+    async function dm() {
+        if (!sender) return;
+
         const trimmed = content.trim();
         if (!trimmed) return;
-        sendDirectMessage(con_id, sender_id, trimmed);
+
+        // This now uses the logged in users correct uid for when sending messages
+        sendDirectMessage(con_id, sender.uid, trimmed);
+
         //console.log(trimmed)
         setContent("");
+  
     }
-
+    
     return(
         <SafeAreaProvider style={styles.container}>
             <KeyboardAvoidingView style={{flex: 1}}
@@ -86,7 +104,7 @@ export default function DirectMessage() {
                     placeholder="Type a message"
                     style={styles.input}
                     returnKeyType="send"
-                    onSubmitEditing={sendMessage}
+                    onSubmitEditing={dm}
                 />
                 {/*<Button title="Send" onPress={sendMessage} />*/}
             </KeyboardAvoidingView>

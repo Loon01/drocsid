@@ -8,7 +8,7 @@ export async function getProfile() {
 
       const {data, error} = await supabase
         .from('User')
-        .select(`username`)
+        .select(`u_id, username, email`)
         .eq('auth_id', user.id)     // compares uuid
         .single()
 
@@ -22,22 +22,9 @@ export async function getProfile() {
       //setEmail(user.email ?? '')
 
     return {
+        // Get current logged in User's info
         username: data.username,
-        email: user.email,
+        email: data.email,
+        uid: data.u_id,
     }
   }
-
-  /*
-  export async function dms() {
-    const { data: { user }, error: userError } = await supabase.auth.getUser()
-
-    if (userError) throw userError
-    if (!user) throw new Error('No logged in user')
-
-    const {data, error} = await supabase
-      .from('Direct_messages')
-      .select('context')
-      .eq('')
-      .single()
-  }
-  */
